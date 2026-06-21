@@ -21,10 +21,12 @@ module neo (
 
     reg signed [7:0] x_d1, x_d2; // x[n-1], x[n-2]
 
+    // equations: all together it is this psi[n] = x[n]^2 - x[n+1]*x[n-1]
     wire signed [15:0] x_sq   = x_d1 * x_d1; // x[n-1]^2  always >= 0
     wire signed [15:0] x_prod = x_in  * x_d2; // x[n]*x[n-2]
     wire signed [15:0] neo_raw = x_sq - x_prod;
 
+    // the clocked update block that shifts delay line and updates registers
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             x_d1    <= 8'sd0;
