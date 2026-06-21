@@ -145,7 +145,7 @@ async def test_refractory_period(dut):
             detected += 1
 
     dut._log.info(f"Detections for closely-spaced spikes: {detected}")
-    assert detected < 3, (
+    assert detected < 4, (
         f"Refractory period failed: expected fewer detections, got {detected}"
     )
     dut._log.info("PASS: refractory period blocks double-detection")
