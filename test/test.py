@@ -11,7 +11,7 @@ import random
 import math
 
 
-# ── Synthetic signal generation ──────────────────────────────────────────────
+# synthetic signal generation ──────────────────────────────────────────────
 
 def gaussian(n, mu, sigma, amplitude):
     """Gaussian spike shape, returns integer sample list"""
@@ -34,7 +34,7 @@ def make_neural_signal(n_samples, spike_times, noise_amp=8, spike_amp=60):
     return signal
 
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
+# helper functions ───────────────────────────────────────────────────────────────────
 
 async def reset_dut(dut):
     dut.rst_n.value  = 0
@@ -75,7 +75,7 @@ async def spi_write_config(dut, k_thresh, refractory_len):
     dut._log.info(f"SPI config sent: k={k_thresh}, refractory={refractory_len}")
 
 
-# ── Tests ─────────────────────────────────────────────────────────────────────
+# tests ─────────────────────────────────────────────────────────────────────
 
 @cocotb.test()
 async def test_basic_spike_detection(dut):
