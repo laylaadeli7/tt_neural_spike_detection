@@ -22,7 +22,6 @@
 module tt_um_layla_spike_detector (
     input  wire [7:0] ui_in,    // dedicated inputs
     output wire [7:0] uo_out,   // dedicated outputs
-    inout  wire [7:0] uio,      // bidirectional IOs
     input  wire [7:0] uio_in,   // bidir IOs: input path
     output wire [7:0] uio_out,  // bidir IOs: output path
     output wire [7:0] uio_oe,   // bidir IOs: output enable (1=output)
