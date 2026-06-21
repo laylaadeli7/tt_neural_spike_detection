@@ -1,10 +1,10 @@
 // tt_um_layla_spike_detector 
 // Top-level Tiny Tapeout wrapper
-// Neural Spike Detector for TTGF26a
+// Neural Spike Detector for TTGF26b
 //
-// Signal path: ADC input -> IIR bandpass -> NEO -> adaptive threshold -> spike FSM
+// the signal path is path: ADC input -> IIR bandpass -> NEO -> adaptive threshold -> spike FSM
 //
-// Pin mapping:
+// pin mapping:
 //   ui_in[7:0]  - 8-bit signed ADC sample (2's complement, Q7)
 //   uo_out[7]   - spike detected (1-cycle pulse, synchronous to clk_en)
 //   uo_out[6:0] - 7-bit rolling timestamp (increments each clk_en)
@@ -14,8 +14,8 @@
 //   uio[3]      - debug: filtered signal bit 7 (output)
 //   uio[7:4]    - unused (input)
 //
-// Clock divider: system clk (50 MHz) -> clk_en every 1000 cycles = 50 kHz sample rate
-// This matches typical neural recording ADC rates (20-50 kHz).
+// Clock divider: system clk (10 MHz) -> clk_en every 100 cycles = 10 kHz sample rate
+// this is below typical neural recording ADC rates (20-50 kHz), but was running into GDS errors with faster clocks 
 `default_nettype none
 module tt_um_layla_spike_detector (
     input  wire [7:0] ui_in,    // dedicated inputs
