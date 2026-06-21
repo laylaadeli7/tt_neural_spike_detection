@@ -33,12 +33,12 @@ module iir_biquad (
     localparam signed [15:0] A2 = 16'sd835;
 
     reg signed [19:0] w1, w2;
-    reg signed [19:0] w0_reg;   // pipeline register: stage 1 result
-    reg signed [19:0] w2_reg;   // delayed w2 to align with w0_reg
+    reg signed [19:0] w0_reg; // pipeline register: stage 1 result
+    reg signed [19:0] w2_reg; // delayed w2 to align with w0_reg (these were newly added in)
 
     wire signed [19:0] x_ext = {{12{x_in[7]}}, x_in};
-    wire signed [19:0] w0     = x_ext - ((A1 * w1) >>> 10) - ((A2 * w2) >>> 10);
-    wire signed [19:0] y_full = ((B0 * w0_reg) >>> 10) + ((B2 * w2_reg) >>> 10);
+    wire signed [19:0] w0     = x_ext - ((A1 * w1) >>> 10) - ((A2 * w2) >>> 10); // logic for the biquad filter stage 1
+    wire signed [19:0] y_full = ((B0 * w0_reg) >>> 10) + ((B2 * w2_reg) >>> 10); // continued logic for biquad filter stage 2 
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -48,13 +48,13 @@ module iir_biquad (
             w2_reg <= 20'sd0;
             y_out  <= 8'sd0;
         end else if (clk_en) begin
-            // Stage 1: compute w0, advance delay line
+            // first stage is to compute w0, advance delay line
             w2     <= w1;
             w1     <= w0;
-            // Pipeline registers feeding stage 2
+            // these are the pipeline registers feeding stage 2
             w0_reg <= w0;
             w2_reg <= w2;
-            // Stage 2: compute y_full from previous cycle's w0/w2 (now registered)
+            // second stage is to compute y_full from previous cycle's w0/w2 (now registered)
             if      (y_full > 20'sd127)  y_out <= 8'sd127;
             else if (y_full < -20'sd128) y_out <= -8'sd128;
             else                         y_out <= y_full[7:0];
