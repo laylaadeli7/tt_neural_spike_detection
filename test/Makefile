@@ -6,8 +6,7 @@ SIM ?= icarus
 FST ?= -fst # Use more efficient FST format
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = project.v
-
+PROJECT_SOURCES = iir_biquad.v neo.v noise_estimator.v spike_fsm.v spi_config.v tt_um_layla_spike_detector.v
 ifneq ($(GATES),yes)
 
 # RTL simulation:
