@@ -4,7 +4,7 @@ project:
   discord:      ""
   description:  "Adaptive neural spike detector with IIR bandpass filter (300-3000 Hz), Nonlinear Energy Operator (NEO), and EWMA adaptive threshold. Digital backend for neural recording AFEs."
   language:     "Verilog"
-  clock_hz:     10000000
+  clock_hz: 10000000 
   tiles:        "1x3"
   top_module:   "tt_um_layla_spike_detector"
   source_files:
