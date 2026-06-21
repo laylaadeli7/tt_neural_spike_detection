@@ -16,9 +16,7 @@
 //
 // Clock divider: system clk (50 MHz) -> clk_en every 1000 cycles = 50 kHz sample rate
 // This matches typical neural recording ADC rates (20-50 kHz).
-
 `default_nettype none
-
 module tt_um_layla_spike_detector (
     input  wire [7:0] ui_in,    // dedicated inputs
     output wire [7:0] uo_out,   // dedicated outputs
@@ -29,26 +27,21 @@ module tt_um_layla_spike_detector (
     input  wire       clk,      // system clock
     input  wire       rst_n     // active-low reset
 );
-
     // this is the IIR bandpass filter 
     wire signed [7:0] filtered;
     // ── uio direction: only uio[3] is output (debug) ──
     assign uio_oe  = 8'b00001000;
     assign uio_out = {4'b0, filtered[7], 3'b0}; // debug on uio[3]
-
     // Clock divider: 50 MHz -> 50 kHz sample clock enable 
     reg [9:0] clk_div;
     wire clk_en = (clk_div == 10'h0);
-
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) clk_div <= 10'h0;
         else        clk_div <= (clk_div == 10'd999) ? 10'h0 : clk_div + 10'h1;
     end
-
     // SPI config 
     wire [3:0] k_thresh;
     wire [7:0] refractory_len;
-
     spi_config u_spi (
         .clk (clk),
         .rst_n (rst_n),
@@ -58,9 +51,7 @@ module tt_um_layla_spike_detector (
         .k_thresh (k_thresh),
         .refractory_len (refractory_len)
     );
-
   
-
     iir_biquad u_filter (
         .clk    (clk),
         .rst_n  (rst_n),
@@ -68,10 +59,8 @@ module tt_um_layla_spike_detector (
         .x_in   (ui_in),
         .y_out  (filtered)
     );
-
     // the NEO energy operator 
     wire [15:0] neo_val;
-
     neo u_neo (
         .clk (clk),
         .rst_n (rst_n),
@@ -79,10 +68,8 @@ module tt_um_layla_spike_detector (
         .x_in (filtered),
         .neo_out (neo_val)
     );
-
     // Noise estimator + adaptive threshold
     wire [15:0] threshold;
-
     noise_estimator u_noise (
         .clk (clk),
         .rst_n (rst_n),
@@ -91,7 +78,6 @@ module tt_um_layla_spike_detector (
         .k_thresh (k_thresh),
         .threshold (threshold)
     );
-
     // Spike detection FSM
     spike_fsm u_fsm (
         .clk  (clk),
@@ -102,5 +88,4 @@ module tt_um_layla_spike_detector (
         .refractory_len (refractory_len),
         .uo_out (uo_out)
     );
-
 endmodule
