@@ -19,7 +19,7 @@ value, and k is a configurable multiplier (default is set to 5) set via a simple
 When the NEO output crosses the adaptive threshold, a spike is flagged and a 7-bit
 rolling timestamp is output, followed by a configurable refractory period (default
 50 samples) to prevent re-triggering on the same spike waveform. This is the very first revision, 
-and my first experience with Tiny Tapeout as well as my first experience really using Verilog for a project 
+and my first experience with not just Tiny Tapeout, but also with Verilog for a project 
 such as this. If there are bugs, I am planning on submitting a more in depth version in a future tapeout once I have
 gained more exposure. :)
 
