@@ -14,7 +14,7 @@
 //   uio[3]      - debug: filtered signal bit 7 (output)
 //   uio[7:4]    - unused (input)
 //
-// Clock divider: system clk (10 MHz) -> clk_en every 100 cycles = 10 kHz sample rate
+// Clock divider: system clk (10 MHz) -> clk_en every 500 cycles = 20 kHz sample rate
 // this is below typical neural recording ADC rates (20-50 kHz), but was running into GDS errors with faster clocks 
 `default_nettype none
 module tt_um_layla_spike_detector (
