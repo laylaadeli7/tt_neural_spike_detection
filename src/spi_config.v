@@ -44,8 +44,8 @@ module spi_config (
             cs_sync   <= 2'b11;
         end else begin
             sclk_sync <= {sclk_sync[1:0], sclk};
-            mosi_sync <= {mosi_sync[0],   mosi};
-            cs_sync   <= {cs_sync[0],     cs_n};
+            mosi_sync <= {mosi_sync[0], mosi};
+            cs_sync  <= {cs_sync[0], cs_n};
         end
     end
     // inverts it so it is naturally TRUE when active (even though it is active low)
@@ -55,7 +55,7 @@ module spi_config (
         if (!rst_n) begin
             bit_cnt       <= 5'h0;
             shift_reg     <= 16'h0;
-            k_thresh      <= 4'd5;   // default k=5
+            k_thresh      <= 4'd5;  // default k=5
             refractory_len <= 8'd50; // default ~1ms
         end else begin
             // receives the bits (shift register)
