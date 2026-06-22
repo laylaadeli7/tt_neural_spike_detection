@@ -23,7 +23,7 @@ rolling timestamp is output, followed by a configurable refractory period (defau
 ## How to test
 
 Want to apply an 8-bit signed sample to ui_in on each clock_en pulse (internally divided
-down from the system clock to ~50 kHz). Then, feed in real or synthetic neural recording
+down from the system clock to ~10 kHz). Then, feed in real or synthetic neural recording
 data containing spike waveforms superimposed on background noise, and monitor uo_out[7]
 for the spike-detected pulse and uo_out[6:0] for the timestamp. Configure the
 threshold multiplier and refractory period via the 3-wire SPI interface on uio[2:0]
