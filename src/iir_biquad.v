@@ -8,11 +8,15 @@
 //                               1  + a1*z^-1 + a2*z^-2
 //
 // coefficients (10-bit, scaled by 1024) using standard eq. from Auto Eq Cookbook:
-//   b0 =  0.4441 -> 455
-//   b1 =  0 -> 0
-//   b2 = -0.4441 -> -455
-//   a1 = -0.9201 -> -942
-//   a2 =  0.1118 -> 114
+//   alpha = sin(w0)/(2Q) = 0.7993
+//   a0 = 1 + alpha = 1.7993  (the normalization factor)
+//   b0 =  alpha / a0  =  0.4441      -> 455
+//   b1 =  0  =  0                    -> 0
+//   b2 = -alpha / a0 = -0.4441       -> -455
+//   a1 = -2*cos(w0) / a0  = -0.9201  -> -942
+//   a2 = (1 - alpha) / a0  =  0.1118 -> 114
+
+
 //
 // these coefficients were found as they will give a bandpass centered ~1 kHz with -3dB points ~300 Hz and ~3000 Hz
 // this is known to be suitable for neural spike band isolation!
