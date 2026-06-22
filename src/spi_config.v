@@ -2,7 +2,7 @@
 // Receives 16-bit config word:
 //   [15:12] = k_thresh (threshold multiplier, default 5)
 //   [11:8]  = reserved
-//   [7:0]   = refractory_len (samples, default 50 = ~1ms at 50kHz)
+//   [7:0] = refractory_len (samples, default 50 = ~1ms at 50kHz)
 //
 // Pinout on uio[]:
 //   uio[0] = SCLK
@@ -18,11 +18,11 @@
 module spi_config (
     input  wire       clk,
     input  wire       rst_n,
-    // SPI pins
+    // these are the SPI pins
     input  wire       sclk,
     input  wire       mosi,
     input  wire       cs_n,
-    // Config outputs (registered, hold until next write)
+    // these config outputs (registered, hold until next write)
     output reg [3:0]  k_thresh,
     output reg [7:0]  refractory_len
 );
@@ -36,7 +36,7 @@ module spi_config (
     reg [4:0]  bit_cnt;
     reg [15:0] shift_reg;
 
-    // Synchronize async SPI inputs to system clock domain
+    // this synchronizes async SPI inputs to system clock domain
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             sclk_sync <= 3'b0;
@@ -48,7 +48,7 @@ module spi_config (
             cs_sync   <= {cs_sync[0],     cs_n};
         end
     end
-
+    // inverts it so it is naturally TRUE when active (even though it is active low)
     wire cs_active = ~cs_sync[1];
 
     always @(posedge clk or negedge rst_n) begin
@@ -58,14 +58,19 @@ module spi_config (
             k_thresh      <= 4'd5;   // default k=5
             refractory_len <= 8'd50; // default ~1ms
         end else begin
+            // receives the bits (shift register)
             if (!cs_active) begin
                 bit_cnt   <= 5'h0;
                 shift_reg <= 16'h0;
             end else if (sclk_rise) begin
                 shift_reg <= {shift_reg[14:0], mosi_sync[1]};
                 bit_cnt   <= bit_cnt + 5'h1;
+                // latches the final result 
                 if (bit_cnt == 5'd15) begin
-                    // Full 16-bit word received
+                    // the full 16-bit word received
+                    // once the 16 bits have been shifted in (bit_cnt reaches 15, the 16th bit since it started at 0), 
+                    //       the full word is complete and gets split per the format at the top 
+                    //          top 4 bits become the threshold multiplier, bottom 8 bits become the refractory length.
                     k_thresh       <= shift_reg[15:12];
                     refractory_len <= shift_reg[7:0];
                 end
