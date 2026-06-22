@@ -37,5 +37,5 @@ SPI configuration.
 ## External hardware
 
 External hardware can include ADC or microcontroller that sends data for the input. Also would want either external microcontroller or 
-board given to capture the pulses at the output. Overall, some sort of analog to digital block, and signal generator would be ideal. In initial testing
-I used a Python script to generate synthetic neural data, so that could be another solution without external hardware issues. 
+use the TT board given to capture the pulses at the output. Overall, some sort of analog to digital block, and signal generator would be ideal. In initial testing
+I used a Python script to generate synthetic neural data, so that could be another solution without an external ADC. 
