@@ -79,7 +79,7 @@ async def spi_write_config(dut, k_thresh, refractory_len):
 
 @cocotb.test()
 async def test_basic_spike_detection(dut):
-    cocotb.start_soon(Clock(dut.clk, 20, units="ns").start())
+    cocotb.start_soon(Clock(dut.clk, 100, units="ns").start())
     await reset_dut(dut)
 
     random.seed(42)
@@ -108,7 +108,7 @@ async def test_basic_spike_detection(dut):
 
 @cocotb.test()
 async def test_no_false_positives_noise_only(dut):
-    cocotb.start_soon(Clock(dut.clk, 20, units="ns").start())
+    cocotb.start_soon(Clock(dut.clk, 100, units="ns").start())
     await reset_dut(dut)
 
     random.seed(7)
@@ -130,7 +130,7 @@ async def test_no_false_positives_noise_only(dut):
 
 @cocotb.test()
 async def test_refractory_period(dut):
-    cocotb.start_soon(Clock(dut.clk, 20, units="ns").start())
+    cocotb.start_soon(Clock(dut.clk, 100, units="ns").start())
     await reset_dut(dut)
 
     random.seed(13)
@@ -153,7 +153,7 @@ async def test_refractory_period(dut):
 
 @cocotb.test()
 async def test_spi_config(dut):
-    cocotb.start_soon(Clock(dut.clk, 20, units="ns").start())
+    cocotb.start_soon(Clock(dut.clk, 100, units="ns").start())
     await reset_dut(dut)
 
     await spi_write_config(dut, k_thresh=8, refractory_len=50)
@@ -178,7 +178,7 @@ async def test_spi_config(dut):
 
 @cocotb.test()
 async def test_reset_clears_state(dut):
-    cocotb.start_soon(Clock(dut.clk, 20, units="ns").start())
+    cocotb.start_soon(Clock(dut.clk, 100, units="ns").start())
     await reset_dut(dut)
 
     for _ in range(50):
