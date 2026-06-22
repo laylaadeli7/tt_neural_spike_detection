@@ -49,15 +49,15 @@ module iir_biquad (
             y_out  <= 8'sd0;
         end else if (clk_en) begin
             // first stage is to compute w0, advance delay line
-            w2     <= w1;
-            w1     <= w0;
+            w2 <= w1;
+            w1 <= w0;
             // these are the pipeline registers feeding stage 2
             w0_reg <= w0;
             w2_reg <= w2;
             // second stage is to compute y_full from previous cycle's w0/w2 (now registered)
             if      (y_full > 20'sd127)  y_out <= 8'sd127;
             else if (y_full < -20'sd128) y_out <= -8'sd128;
-            else                         y_out <= y_full[7:0];
+            else    y_out <= y_full[7:0];
         end
     end
 endmodule
