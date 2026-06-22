@@ -37,7 +37,7 @@ module tt_um_layla_spike_detector (
     wire clk_en = (clk_div == 10'h0);
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) clk_div <= 10'h0;
-        else        clk_div <= (clk_div == 10'd499) ? 10'h0 : clk_div + 10'h1;
+        else        clk_div <= (clk_div == 10'd999) ? 10'h0 : clk_div + 10'h1;
     end
     // SPI config 
     wire [3:0] k_thresh;
